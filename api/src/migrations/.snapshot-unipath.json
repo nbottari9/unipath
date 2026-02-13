@@ -1,0 +1,599 @@
+{
+  "namespaces": [
+    "public"
+  ],
+  "name": "public",
+  "tables": [
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        }
+      },
+      "name": "institution",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "institution_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {},
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "institution_id": {
+          "name": "institution_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "course_catalog",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "course_catalog_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "course_catalog_institution_id_foreign": {
+          "constraintName": "course_catalog_institution_id_foreign",
+          "columnNames": [
+            "institution_id"
+          ],
+          "localTableName": "public.course_catalog",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.institution",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "catalog_id": {
+          "name": "catalog_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "code": {
+          "name": "code",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "department": {
+          "name": "department",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        }
+      },
+      "name": "course",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "course_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "course_catalog_id_foreign": {
+          "constraintName": "course_catalog_id_foreign",
+          "columnNames": [
+            "catalog_id"
+          ],
+          "localTableName": "public.course",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.course_catalog",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "course_1_id": {
+          "name": "course_1_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "course_2_id": {
+          "name": "course_2_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "course_prerequisites",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "course_prerequisites_pkey",
+          "columnNames": [
+            "course_1_id",
+            "course_2_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "course_prerequisites_course_1_id_foreign": {
+          "constraintName": "course_prerequisites_course_1_id_foreign",
+          "columnNames": [
+            "course_1_id"
+          ],
+          "localTableName": "public.course_prerequisites",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.course",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "course_prerequisites_course_2_id_foreign": {
+          "constraintName": "course_prerequisites_course_2_id_foreign",
+          "columnNames": [
+            "course_2_id"
+          ],
+          "localTableName": "public.course_prerequisites",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.course",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "course_1_id": {
+          "name": "course_1_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "course_2_id": {
+          "name": "course_2_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "course_corequisites",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "course_corequisites_pkey",
+          "columnNames": [
+            "course_1_id",
+            "course_2_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "course_corequisites_course_1_id_foreign": {
+          "constraintName": "course_corequisites_course_1_id_foreign",
+          "columnNames": [
+            "course_1_id"
+          ],
+          "localTableName": "public.course_corequisites",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.course",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "course_corequisites_course_2_id_foreign": {
+          "constraintName": "course_corequisites_course_2_id_foreign",
+          "columnNames": [
+            "course_2_id"
+          ],
+          "localTableName": "public.course_corequisites",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.course",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "institution_id": {
+          "name": "institution_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "user",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "user_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "user_institution_id_foreign": {
+          "constraintName": "user_institution_id_foreign",
+          "columnNames": [
+            "institution_id"
+          ],
+          "localTableName": "public.user",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.institution",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "pathway",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "pathway_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "pathway_owner_id_foreign": {
+          "constraintName": "pathway_owner_id_foreign",
+          "columnNames": [
+            "owner_id"
+          ],
+          "localTableName": "public.pathway",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "pathway_id": {
+          "name": "pathway_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        }
+      },
+      "name": "semester",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "semester_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "semester_pathway_id_foreign": {
+          "constraintName": "semester_pathway_id_foreign",
+          "columnNames": [
+            "pathway_id"
+          ],
+          "localTableName": "public.semester",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.pathway",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "semester_id": {
+          "name": "semester_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "course_id": {
+          "name": "course_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "semester_courses",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "semester_courses_pkey",
+          "columnNames": [
+            "semester_id",
+            "course_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "semester_courses_semester_id_foreign": {
+          "constraintName": "semester_courses_semester_id_foreign",
+          "columnNames": [
+            "semester_id"
+          ],
+          "localTableName": "public.semester_courses",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.semester",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "semester_courses_course_id_foreign": {
+          "constraintName": "semester_courses_course_id_foreign",
+          "columnNames": [
+            "course_id"
+          ],
+          "localTableName": "public.semester_courses",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.course",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    }
+  ],
+  "nativeEnums": {}
+}
