@@ -7,7 +7,7 @@ if [ -z "POSTGRES_URL" ]; then
 fi
 
 echo "Running initial database migration"
-exec npx mikro-orm migration:up
+# exec npx mikro-orm migration:up
 
 echo "Starting API server"
 # run apollo server

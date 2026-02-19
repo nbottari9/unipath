@@ -24,6 +24,7 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
+
 # copy only the built output and production node_modules from the builder stage
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
@@ -32,6 +33,7 @@ COPY --from=builder /app/package*.json ./
 # copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
 
 # expose the port
 EXPOSE 4000

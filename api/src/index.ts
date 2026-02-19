@@ -15,24 +15,32 @@ import { PathwayResolver } from "./resolvers/pathway"
 import { SemesterResolver } from "./resolvers/semester"
 import path from "path"
 import dotenv from "dotenv"
-dotenv.config()
+
 
 async function main() {
+    dotenv.config()
+    console.log("Aaaaaaaaa here")
     const app = express()
     console.log("URL", process.env.POSTGRES_HOST)
-    const orm = await MikroORM.init<PostgreSqlDriver>({
+    let orm: MikroORM
+    try {
+        orm = await MikroORM.init<PostgreSqlDriver>({
         driver: PostgreSqlDriver,
-        clientUrl: process.env.POSTGRES_HOST,
-        host: process.env.POSTGRES_HOST,
-        port: parseInt(process.env.POSTGRES_PORT || "5432"),
-        user: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
+        clientUrl: process.env.POSTGRES_URL,
+        // host: process.env.POSTGRES_HOST || "postgres-db",
+        // port: parseInt(process.env.POSTGRES_PORT || "5432"),
+        // user: process.env.POSTGRES_USER,
+        // password: process.env.POSTGRES_PASSWORD,
         metadataProvider: TsMorphMetadataProvider,
         entitiesTs: [path.join(__dirname, "./entities/*.ts")],
         entities: [path.join(__dirname, "./entities/*.js")],
         dbName: process.env.POSTGRES_DB,
         extensions: [Migrator]
     })
+    } catch (e) {
+        console.error(e)
+    }
+    
 
     app.use((req, res, next) => {
         RequestContext.create(orm.em, next)
