@@ -1,22 +1,15 @@
 "use client"
-import { signUpWithEmail } from "@/app/actions";
-import { AutoSuggestSearchBar } from "@/components/SearchBar/AutoSuggestSearchBar";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { Amplify } from "aws-amplify";
-import { generateClient } from "aws-amplify/api";
 import { useState, useEffect, useCallback } from "react";
-import { ReactSearchAutocomplete } from "react-search-autocomplete";
-import { Schema } from "ROOT/amplify/data/resource";
+
+
 
 
 export default function TempLoginPage() {
+// TODO: Fix anys rewrite everything
 
-    const client = generateClient<Schema>({
-        authMode: "apiKey",
-    })
-
-    const [orgs, setOrgs] = useState<Schema["Organization"]["type"][]>()
-    const [selectedOrgId, setSelectedOrgId] = useState<Schema["Organization"]["type"]["id"]>()
+    const [orgs, setOrgs] = useState<any[]>()
+    const [selectedOrgId, setSelectedOrgId] = useState<any>()
 
     const getOrgs = useCallback(async () => {
         const data = await fetch("http://localhost:3000/api/orgs")
@@ -31,7 +24,7 @@ export default function TempLoginPage() {
 
 
 
-    const handleOnSearch = (string: string, results: Schema["Organization"]["type"][]) => {
+    const handleOnSearch = (string: string, results:any) => {
         // onSearch will have as the first callback parameter
         // the string searched and for the second the results.
         console.log(string, results)
@@ -42,7 +35,7 @@ export default function TempLoginPage() {
         console.log(result)
     }
 
-    const handleOnSelect = (item: Schema["Organization"]["type"]) => {
+    const handleOnSelect = (item:any) => {
         // the item selected
         console.log(item.id)
         setSelectedOrgId(item.id)
@@ -72,7 +65,7 @@ export default function TempLoginPage() {
             </Box>
             <Box>
                 <Typography>Sign up</Typography>
-                <form action={signUpWithEmail}>
+                <form>
                     <Box>
                         <Typography>Email</Typography>
                         <TextField autoComplete="email" name="email" type="email" />
@@ -84,7 +77,7 @@ export default function TempLoginPage() {
                     <Box>
                         <Typography>Institution</Typography>
                         {/* <AutoSuggestSearchBar HTMLElementNameAttr="institution"  */}
-                        <ReactSearchAutocomplete items={orgs!} onHover={handleOnHover} onFocus={handleOnFocus} onSelect={handleOnSelect} onSearch={handleOnSearch} />
+                        {/* <ReactSearchAutocomplete items={orgs!} onHover={handleOnHover} onFocus={handleOnFocus} onSelect={handleOnSelect} onSearch={handleOnSearch} /> */}
                     </Box>
                     <Box>
                         <Typography>Password</Typography>

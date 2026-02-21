@@ -1,8 +1,7 @@
-import { SignUpOutput, autoSignIn } from "aws-amplify/auth";
 import { redirect } from "next/navigation";
 
 export async function handleSignUpStep(
-  step: SignUpOutput["nextStep"],
+  step: any,
   rawFormData: any
 ) {
   switch (step.signUpStep) {

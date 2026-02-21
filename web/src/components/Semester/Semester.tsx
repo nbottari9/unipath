@@ -2,16 +2,13 @@
 import { Droppable } from "@hello-pangea/dnd"
 import { CalendarViewDayOutlined, Delete, MoreVert } from "@mui/icons-material"
 import { Box, Collapse, IconButton, Menu, MenuItem, Tooltip, Typography, useTheme } from "@mui/material"
-import Grid from "@mui/material/Unstable_Grid2"
+import Grid from "@mui/material/Grid"
 import { IconMenuItem } from "mui-nested-menu"
-import React, { useState } from "react"
+import { useState } from "react"
 import { DraggableCourse } from "./DraggableCourse"
 import { SemesterFooter } from "./SemesterFooter"
 import { SemesterHeader } from "./SemesterHeader"
 import { AddCourseToSemesterDialog } from "../Dialogs/AddClassToSemesterDialog"
-import { SemesterType } from "../../types/types"
-import { Schema } from "ROOT/amplify/data/resource"
-import { CoursesContext } from "@/contexts/CoursesContext"
 
 export const Semester = ({ classes, handleSemesterDelete, name, id, addClassesToSemester }: { classes: any, handleSemesterDelete: any, name: any, id: any, addClassesToSemester: any }) => {
     const theme = useTheme()
@@ -66,7 +63,7 @@ export const Semester = ({ classes, handleSemesterDelete, name, id, addClassesTo
     return (
         <>
 
-            <Grid md={6} sx={{ minWidth: "45%" }}>
+            <Grid size={{md:6}} sx={{ minWidth: "45%" }}>
                 <Box //main container
                     sx={{
                         display: 'flex',

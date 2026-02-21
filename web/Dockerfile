@@ -26,9 +26,10 @@ WORKDIR /app
 
 
 # copy only the built output and production node_modules from the builder stage
-COPY --from=builder /app/.next ./dist
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/public ./public
 
 # copy entrypoint script
 COPY entrypoint.sh /entrypoint.sh

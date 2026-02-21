@@ -1,5 +1,4 @@
 import { Dialog, DialogTitle, DialogContent, Box, TextField, Button } from "@mui/material";
-import { TriggerInvalidation } from "aws-cdk-lib/triggers";
 import React, { FormEvent } from "react";
 
 export const CreateSemesterDialog = ({ open, onClose, create }: { open: boolean, onClose: any, create: any }) => {
@@ -8,9 +7,10 @@ export const CreateSemesterDialog = ({ open, onClose, create }: { open: boolean,
         <Dialog
             open={open}
             onClose={onClose}
-            PaperProps={{
-                component: 'form',
-                onSubmit: (e: FormEvent<HTMLFormElement>) => {
+            slotProps={{
+                paper: {    
+                    component: 'form',
+                onSubmit: (e: any) => {
                     const formData = new FormData(e.currentTarget)
                     const formJson = Object.fromEntries(formData.entries());
                     const name = formJson.name
@@ -19,7 +19,9 @@ export const CreateSemesterDialog = ({ open, onClose, create }: { open: boolean,
 
                     create(name)
                 }
-            }}>
+                }
+            }}
+            >
             <DialogTitle>Create a Semester</DialogTitle>
             <DialogContent>
                 <Box sx={{ display: "flex", flexDirection: "column" }}>

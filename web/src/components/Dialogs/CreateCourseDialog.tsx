@@ -1,5 +1,5 @@
-import { TextField, Button } from "@aws-amplify/ui-react"
-import { Box, Dialog, DialogTitle, DialogContent } from "@mui/material"
+
+import { Box, Dialog, DialogTitle, DialogContent, TextField, Button } from "@mui/material"
 import { FormEvent } from "react";
 
 export const CreateCourseDialog = ({ open, onClose, createCourse }: { open: boolean, onClose: any, createCourse: any }) => {
@@ -8,9 +8,10 @@ export const CreateCourseDialog = ({ open, onClose, createCourse }: { open: bool
             <Dialog
                 open={open}
                 onClose={onClose}
-                PaperProps={{
-                    component: 'form',
-                    onSubmit: (e: FormEvent<HTMLFormElement>) => {
+                slotProps={{
+                    paper: {
+                        component: 'form',
+                        onSubmit: (e: any) => {
                         const formData = new FormData(e.currentTarget)
                         const formJson = Object.fromEntries(formData.entries());
                         const number = formJson.number
@@ -21,6 +22,7 @@ export const CreateCourseDialog = ({ open, onClose, createCourse }: { open: bool
                         onClose();
 
                         createCourse(name, number, credits)
+                    }
                     }
                 }}
             >

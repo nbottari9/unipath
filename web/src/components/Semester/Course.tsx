@@ -1,7 +1,7 @@
 import { MoreVert } from "@mui/icons-material"
 
 import { TableRow, TableCell, useTheme, Tooltip, IconButton, Box, Divider } from "@mui/material"
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import React from "react"
 import { CourseType } from "../../types/types"
 
@@ -20,14 +20,14 @@ export const Course = ({ data, handleOptionMenuOpen }: { data: CourseType, handl
                 alignItems: "center",
                 borderRadius: theme.shape.borderRadius
             }}>
-                <Grid md={3} >
+                <Grid size={{md:2}} >
                     <Box
                         sx={{
                             textAlign: "center",
                             fontSize: "1.2em"
                         }}>{data.num}</Box>
                 </Grid>
-                <Grid md={5} sx={{
+                <Grid size={{md:5}} sx={{
                     flexBasis: "fit-content",
                 }}>
                     <Box
@@ -37,7 +37,7 @@ export const Course = ({ data, handleOptionMenuOpen }: { data: CourseType, handl
                             fontSize: "1.2em"
                         }}>{data.name}</Box>
                 </Grid>
-                <Grid md={2} sx={{
+                <Grid size={{md:2}} sx={{
                     flexBasis: "fit-content"
                 }}>
                     <Box
@@ -46,7 +46,7 @@ export const Course = ({ data, handleOptionMenuOpen }: { data: CourseType, handl
                             fontSize: "1.2em"
                         }}>{data.credits}</Box>
                 </Grid>
-                <Grid md={2} sx={{ flexBasis: "fit-content" }}>
+                <Grid size={{md:2}} sx={{ flexBasis: "fit-content" }}>
                     <Box
                         sx={{
                             display: "flex",

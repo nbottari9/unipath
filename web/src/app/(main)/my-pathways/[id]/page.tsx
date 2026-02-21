@@ -1,63 +1,43 @@
 "use client"
 import { CalendarViewDayOutlined } from '@mui/icons-material'
 import { Box, SpeedDial, SpeedDialIcon, Tooltip, useTheme } from '@mui/material'
-import React, { createContext, use, useCallback, useEffect, useMemo, useState } from 'react'
-import Grid from '@mui/material/Unstable_Grid2'
-import { DragDropContext, DropResult, Droppable, OnDragEndResponder } from '@hello-pangea/dnd'
-import { DraggableSemester } from '../../../../components/Semester/DraggableSemester'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import Grid from '@mui/material/Grid'
+import { DragDropContext, DropResult } from '@hello-pangea/dnd'
 import { Semester } from '../../../../components/Semester/Semester'
-import { generateClient, SelectionSet } from 'aws-amplify/data'
-import type { Schema } from 'SCHEMA'
-
 import { CreateSemesterDialog } from '../../../../components/Dialogs/CreateSemesterDialog'
 import { CoursesContext } from '@/contexts/CoursesContext'
-import { fetchUserAttributes } from 'aws-amplify/auth'
 
 
-
+// just rewrite this atp
 const Pathway = ({ params }: { params: { id: string } }) => {
 
     const theme = useTheme()
     //state
     const selectionSet = useMemo(() => ["id", "name", "classes.*"] as const, []);
-    type SemesterWithClasses = SelectionSet<Schema["Semester"]["type"], typeof selectionSet>
+    // type SemesterWithClasses = SelectionSet<Schema["Semester"]["type"], typeof selectionSet>
     const courseCatalogSelectionSet = useMemo(() => ["id", "courses.*"] as const, [])
-    const [semesters, setSemesters] = useState<SemesterWithClasses[]>()
+    const [semesters, setSemesters] = useState<any[]>()
     const [loading, setLoading] = useState(true)
     const [createSemesterDialogOpen, setCreateSemesterDialogOpen] = useState(false)
-    const [courses, setCourses] = useState<Schema["Course"]["type"][]>()
+    const [courses, setCourses] = useState<any[]>()
     const [catalogId, setCatalogId] = useState<string>()
 
     // data fetching
-    const client = generateClient<Schema>({ authMode: "userPool" })
 
 
 
 
     const fetchSemesters = useCallback(async () => {
-        const { data, errors } = await client.models.Semester.list({
-            selectionSet
-        })
-        if (errors) console.error(errors)
-        setLoading(false)
-        setSemesters(data)
-    }, [client, selectionSet])
+        console.log("Fetch semesters")
+    }, [selectionSet])
 
     const getCatalogId = useCallback(async () => {
-        const attr = await fetchUserAttributes()
-        const { data, errors } = await client.models.Organization.get({ id: attr["custom:institution"] }, { selectionSet: ["courseCatalog.id"] })
-        if (errors) console.error(errors)
-        console.log(data)
-        setCatalogId(data!.courseCatalog.id!)
+        console.log("get catalog id")
     }, [])
 
     const getCourses = useCallback(async () => {
-        const { data, errors } = await client.models.CourseCatalog.get({ id: catalogId })
-        if (errors) console.error(errors)
-        if (data) {
-            const { data: c } = await data!.courses()
-            setCourses(c)
-        }
+        console.log("get courses")
     }, [catalogId])
 
     useEffect(() => {
@@ -87,28 +67,24 @@ const Pathway = ({ params }: { params: { id: string } }) => {
 
     //crud handlers
     const createSemester = async (name: string) => {
-        const { errors } = await client.models.Semester.create({ name: name })
-        if (errors) console.error(errors)
-        fetchSemesters()
+        console.log("create semester with name ", name)
     }
 
     const deleteSemester = async (id: string) => {
-        const { errors } = await client.models.Semester.delete({ id: id })
-        if (errors) console.error(errors)
-        console.log("Semester Deleted")
-        fetchSemesters()
+        console.log("delete semsester ", id)
     }
 
-    const addClassesToSemester = async (semesterId: string, courses: Schema["Course"]["type"][]) => {
+    const addClassesToSemester = async (semesterId: string, courses: any[]) => {
 
         for (let i = 0; i < courses.length; i++) {
-            const { data, errors } = await client.models.Class.create({
-                semesterId: semesterId,
-                name: courses[i].name,
-                code: courses[i].code,
-                credits: courses[i].credits,
-            })
-            if (errors) console.error(errors)
+            // const { data, errors } = await client.models.Class.create({
+            //     semesterId: semesterId,
+            //     name: courses[i].name,
+            //     code: courses[i].code,
+            //     credits: courses[i].credits,
+            // })
+            console.log("creating course: ", courses[i].name)
+            // if (errors) console.error(errors)
         }
 
         fetchSemesters()

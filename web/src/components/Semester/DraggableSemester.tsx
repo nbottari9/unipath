@@ -1,9 +1,4 @@
-import { Draggable } from "@hello-pangea/dnd"
-import { Semester } from "./Semester"
-import React from "react"
-import { Box } from "@mui/material"
-import Grid from "@mui/material/Unstable_Grid2"
-import { CourseType, SemesterType } from "../../types/types"
+import { SemesterType } from "../../types/types"
 
 export const DraggableSemester = ({ title, courses, id }: SemesterType) => {
     return (

@@ -1,15 +1,14 @@
 import { Autocomplete, Box, Button, Dialog, DialogContent, DialogTitle, Input, TextField } from "@mui/material";
 import React, { FormEvent, Suspense, SyntheticEvent, useContext } from "react";
-import { Schema } from "ROOT/amplify/data/resource";
 import { CoursesContext } from "ROOT/src/contexts/CoursesContext";
 
 export const AddCourseToSemesterDialog = ({ open, onClose, addClassesToSemester, semesterId, name }: { open: boolean, onClose: any, addClassesToSemester: any, semesterId: string, name: string }) => {
 
     const courses = useContext(CoursesContext)
 
-    const [selectedCourses, setSelectedCourses] = React.useState<Schema["Course"]["type"][]>([]);
+    const [selectedCourses, setSelectedCourses] = React.useState<any[]>([]);
 
-    const handleOnChange = (event: SyntheticEvent, value: Schema["Course"]["type"][]) => {
+    const handleOnChange = (event: SyntheticEvent, value: any[]) => {
         console.log(value)
         setSelectedCourses(value);
     }
@@ -19,15 +18,18 @@ export const AddCourseToSemesterDialog = ({ open, onClose, addClassesToSemester,
             <Dialog
                 open={open}
                 onClose={onClose}
-                PaperProps={{
-                    component: 'form',
-                    onSubmit: (e: FormEvent<HTMLFormElement>) => {
+                slotProps={{
+                    paper: {
+                        component: 'form',
+                    onSubmit: (e: any) => {
                         e.preventDefault();
                         onClose();
                         addClassesToSemester(semesterId, selectedCourses); // add classes to semester
                         setSelectedCourses([]) //clear selected courses for next time
                     }
-                }}>
+                    }
+                }}
+                >
                 <DialogTitle>Adding Course to {name}</DialogTitle>
                 <DialogContent>
                     <Autocomplete sx={{ p: 1 }}

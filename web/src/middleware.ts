@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { runWithAmplifyServerContext } from "@/utils/amplifyServerUtils";
-import { fetchAuthSession } from "aws-amplify/auth/server";
-import { fetchUserAttributes } from "aws-amplify/auth/server";
 
 export async function middleware(request: NextRequest) {
   // const response = NextResponse.next();
