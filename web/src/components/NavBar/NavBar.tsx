@@ -34,6 +34,7 @@ import SearchBar from "@/components/Inputs/SearchBar";
 import AppBarMenu from "@/components/Menus/AppBarMenu";
 import { useState } from "react";
 import Image from "next/image";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 /**
  * AppBarComponent renders an NavBar with various interactive elements.
@@ -57,19 +58,17 @@ export default function NavBar({
     const menuOpen = Boolean(anchorEl)
     const router = useRouter();
     const pathname = usePathname()
-
-    // WTF IS THIS JUST TEMP FOR TEARING OUT AMPLIFY
-    const authStatus = "unauthenticated"
+    const {data: session} = useSession()
 
     //click handlers
     const trigger = useScrollTrigger({
         disableHysteresis: true,
         threshold: 0,
-        // target: window ? window() : undefined,
     });
 
     const handleLoginClick = () => {
-        router.push(`/login?next=${pathname}`);
+        // router.push(`/login?next=${pathname}`);
+        signIn("", {redirectTo: pathname})
         // router.push("/login/temp"); // FIX THIS LATER. This is temporary until login page is redone
     };
 
@@ -82,7 +81,7 @@ export default function NavBar({
     }
 
     const handleSignOut = () => {
-        router.replace("/sign-out")
+        signOut()
     }
 
     const handleMenuOpen = (event) => {
@@ -164,16 +163,14 @@ export default function NavBar({
                         <DarkModeToggle />
                         {
                             /* Logged out UI, sign up button showed */
-                            authStatus === "unauthenticated" ? (
+                            !session?.user ? (
                                 /* Sign Up Button */
                                 <>
                                     <Button variant="outlined" onClick={handleLoginClick}>
                                         Login
                                     </Button>
                                 </>
-                            ) : authStatus ===
-                                "authenticated" /* Logged in UI, with IconButton instead of Sign Up
-                        Button */ ? (
+                            ) : (
                                     <Box>
                                         <IconButton
                                             edge="end"
@@ -186,8 +183,6 @@ export default function NavBar({
                                             <AccountCircle />
                                         </IconButton>
                                     </Box>
-                                ) : (
-                                    <></>
                                 )
                         }
                     </Box>

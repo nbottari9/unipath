@@ -15,6 +15,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeContext, ThemeContextProvider } from "@/contexts/ThemeContext";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
+import { Provider} from "urql";
+import { urqlClient } from "@/utils/createUrqlClient";
+
+import { SessionProvider} from "next-auth/react"
 
 // MainApp is the main high-level layout component that wraps around other components in this application.
 const MainApp = ({ children }: { children: any }) => {
@@ -30,6 +34,9 @@ const MainApp = ({ children }: { children: any }) => {
     </ThemeProvider>
   );
 };
+
+
+
 
 const cache = createCache({
   key: 'css',
@@ -70,10 +77,13 @@ export default function RootLayout({ children }: { children: any }) {
             <CacheProvider value={cache}>
               <AppRouterCacheProvider>
                 <ThemeContextProvider>
-                  <MainApp>
-                    {children}
-                  </MainApp>
-
+                <SessionProvider>
+                  <Provider value={urqlClient}>
+                    <MainApp>
+                      {children}
+                    </MainApp>
+                  </Provider>
+                  </SessionProvider>
                 </ThemeContextProvider>
               </AppRouterCacheProvider>
             </CacheProvider>

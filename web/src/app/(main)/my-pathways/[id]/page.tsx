@@ -7,6 +7,8 @@ import { DragDropContext, DropResult } from '@hello-pangea/dnd'
 import { Semester } from '../../../../components/Semester/Semester'
 import { CreateSemesterDialog } from '../../../../components/Dialogs/CreateSemesterDialog'
 import { CoursesContext } from '@/contexts/CoursesContext'
+import { useQuery } from '@urql/next'
+import { list_pathways } from '@/graphql/queries/pathway'
 
 
 // just rewrite this atp
@@ -24,9 +26,6 @@ const Pathway = ({ params }: { params: { id: string } }) => {
     const [catalogId, setCatalogId] = useState<string>()
 
     // data fetching
-
-
-
 
     const fetchSemesters = useCallback(async () => {
         console.log("Fetch semesters")

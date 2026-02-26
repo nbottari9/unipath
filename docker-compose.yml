@@ -46,6 +46,8 @@ services:
     build: ./web
     container_name: frontend
     restart: on-failure
+    environment:
+      API_ENDPOINT: "http://unipath-api"
     depends_on:
       api:
         condition: service_healthy

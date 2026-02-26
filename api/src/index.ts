@@ -26,11 +26,10 @@ async function main() {
     try {
         orm = await MikroORM.init<PostgreSqlDriver>({
         driver: PostgreSqlDriver,
-        clientUrl: process.env.POSTGRES_URL,
-        // host: process.env.POSTGRES_HOST || "postgres-db",
-        // port: parseInt(process.env.POSTGRES_PORT || "5432"),
-        // user: process.env.POSTGRES_USER,
-        // password: process.env.POSTGRES_PASSWORD,
+        host: process.env.POSTGRES_HOST || "postgres-db",
+        port: parseInt(process.env.POSTGRES_PORT || "5432"),
+        user: process.env.POSTGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
         metadataProvider: TsMorphMetadataProvider,
         entitiesTs: [path.join(__dirname, "./entities/*.ts")],
         entities: [path.join(__dirname, "./entities/*.js")],

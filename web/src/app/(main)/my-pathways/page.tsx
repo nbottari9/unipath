@@ -20,53 +20,59 @@ import NoPathways from "@/components/Layouts/NoPathways";
 import { SpeedDial, SpeedDialIcon } from "@mui/material";
 import MapIcon from "@mui/icons-material/Map";
 import Tooltip from "@mui/material/Tooltip";
+import { useQuery } from 'urql';
+import { list_pathways } from '@/graphql/queries/pathway';
+
 
 
 // Everything is a disaster, just spammed any everywhere please please fix
 // Component: PathwaysPage
 //TODO: transition between: grid <--> list view
 //TODO: use accordion component in pathway details page
-export default function PathwaysPage() {
+export default function PathwaysPage () {
     const theme = useTheme();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     // TODO: retype
-    const [pathways, setPathways] = useState<any>([]);
+    const [pathways, setPathways] = useState();
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [editingPathway, setEditingPathway] = useState({});
 
+    const [result, reexecuteQuery] = useQuery({
+        query: list_pathways,
+        variables: {limit: 20}
+    })
 
-    const fetchPathways = useCallback(async () => {
-        console.log("api not implemented!")
-        // const { data, errors } = await client.models.Pathway.list();
-        // if (errors) {
-        //     console.error(errors)
-        // }
-        // if (data) {
-        //     setPathways(data)
-        //     setLoading(false)
-        // }
-
-    }, [])
-
-
+    
     useEffect(() => {
-        fetchPathways()
-    }, [fetchPathways])
+        if (result.error) {
+            console.error(result.error)
+        }
+        console.log(result)
+        console.log("Pathways: ", pathways)
+        if (result.data) {
+            console.log("set pathways", result.data.list_pathways)
+            setPathways(result.data.list_pathways)
+            setLoading(result.fetching)
+        }
+        
+        
+    }, [result.data, result.fetching])
+    console.log(pathways, loading)
 
     const handleEdit = async (editedFields: any) => {
         console.log("edit, api not implemented!")
-        fetchPathways()
+        reexecuteQuery()
 
     }
     const handleDelete = async (id: any) => {
         console.log("delete, api not implemented!")
-        fetchPathways()
+        reexecuteQuery()
     }
 
     const handleCreate = async (fields: any) => {
         console.log("create, api not implemented!")
-        fetchPathways()
+        reexecuteQuery()
     }
 
     const handleEditDialogOpen = () => {
@@ -118,41 +124,39 @@ export default function PathwaysPage() {
                         <LinearProgress />
                     </Box>
                 ) : (
-                    <></>
+                    !pathways ? (
+                        <NoPathways />
+                    )
+                        :
+                        (
+                        /*Pathway Cards*/
+                        <Box
+                            sx={{
+                                overflow: "visible !important",
+                                display: "grid",
+                                alignItems: "center",
+                                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                                gap: 6,
+
+                            }}
+                        >
+                            {
+                                
+                                // pathways.map((pathway: any, idx) => {
+                                //     return (
+                                //         <PathwayCard
+                                //             key={idx}
+                                //             pathway={pathway}
+                                //             handleEditDialogOpen={handleEditDialogOpen}
+                                //             handlePathwayDelete={handleDelete}
+                                //             handleSetEditingPathway={setEditingPathway}
+                                //         />
+                                //     )
+                                // })
+                            }
+                        </Box>
+                    )
                 )
-            }
-
-
-            {
-                pathways.length === 0 || !pathways ?
-
-                    <NoPathways />
-                    :
-                    /*Pathway Cards*/
-                    <Box
-                        sx={{
-                            overflow: "visible !important",
-                            display: "grid",
-                            alignItems: "center",
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                            gap: 6,
-
-                        }}
-                    >
-                        {
-                            pathways.map((pathway: any) => {
-                                return (
-                                    <PathwayCard
-                                        key={pathway.id}
-                                        pathway={pathway}
-                                        handleEditDialogOpen={handleEditDialogOpen}
-                                        handlePathwayDelete={handleDelete}
-                                        handleSetEditingPathway={setEditingPathway}
-                                    />
-                                )
-                            })
-                        }
-                    </Box>
             }
             {/*Bottom right corner*/}
             <Tooltip title={"Create Pathway"} placement="left">
@@ -173,4 +177,3 @@ export default function PathwaysPage() {
 
     )
 }
-

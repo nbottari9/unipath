@@ -14,6 +14,10 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@0no-co/graphqlsp": "^1.15.2",
+    "@graphql-codegen/cli": "^6.1.2",
+    "@graphql-codegen/schema-ast": "^5.0.0",
+    "@parcel/watcher": "^2.5.6",
     "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -28,18 +32,25 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@auth/mikro-orm-adapter": "^2.11.1",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@hello-pangea/dnd": "^18.0.1",
+    "@mikro-orm/core": "^5.9.8",
     "@mui/icons-material": "^7.3.8",
     "@mui/material": "^7.3.8",
     "@mui/material-nextjs": "^7.3.8",
     "@mui/x-date-pickers": "^8.27.0",
+    "@urql/core": "^6.0.1",
     "dayjs": "^1.11.19",
+    "dotenv": "^17.3.1",
+    "graphql-config": "^5.1.5",
     "mui-nested-menu": "^4.0.3",
     "next": "^16.1.6",
+    "next-auth": "^5.0.0-beta.30",
     "react": "^19",
-    "react-dom": "^19"
+    "react-dom": "^19",
+    "urql": "^5.0.1"
   }
 }

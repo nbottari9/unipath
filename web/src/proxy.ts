@@ -1,8 +1,17 @@
+import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  // const response = NextResponse.next();
-  // const redirectPage = request.nextUrl.pathname;
+export const proxy = auth((req) => {
+    if (!req.auth && req.nextUrl.pathname !== "/login") {
+    const newUrl = new URL("/api/auth/signin", req.nextUrl.origin)
+    return Response.redirect(newUrl)
+  }
+  })
+// export async function proxy(request: NextRequest) {
+//   const response = NextResponse.next();
+//   const redirectPage = request.nextUrl.pathname;
+
+  
 
   // //this function checks if the user is authenticated
   // const authenticated = await runWithAmplifyServerContext({
@@ -51,7 +60,7 @@ export async function middleware(request: NextRequest) {
   //     new URL(`/auth-redirect?next=${redirectPage}`, request.url)
   //   );
   // }
-}
+// }
 
 //add pages here to be processed by the middleware
 export const config = {
